@@ -26,14 +26,14 @@ export const displayControl = style([
     color: colors.base.white,
     cursor: 'pointer',
     transition: 'all 0.5s cubic-bezier(0.0, 0.5, 0.3, 1.0) 0s',
-    ':hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      backdropFilter: 'blur(1px)',
-    },
   },
   rvw.borderRadius(9, 5),
   rvw.padding([6, 18], [3, 12]),
   rvw.fontSize(14, 12),
+  hover({
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backdropFilter: 'blur(10px)',
+  }),
 ])
 
 export const root = style([

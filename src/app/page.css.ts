@@ -1,5 +1,5 @@
 import { cormorantGaramond } from '@/styles/fontUtils'
-import { rvw, sp } from '@/styles/responsive.css'
+import { mqStyle, rvw, sp } from '@/styles/responsive.css'
 import { colors } from '@/styles/variables'
 import { style } from '@vanilla-extract/css'
 
@@ -100,8 +100,8 @@ export const subtitle = style([
     textAlign: 'right',
     opacity: 0.8,
   },
-  rvw.padding([0, 0, 0, 12], 0),
-  rvw.marginTop(12, 0),
+  rvw.padding([0, 0, 0, 12], [0, 0, 0, 3]),
+  mqStyle.marginTop([12, 3]),
   rvw.fontSize(12, 8),
   cormorantGaramond(),
 ])

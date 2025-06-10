@@ -11,6 +11,7 @@ import { GetSpotLight } from './setup/lights/lightsTypes'
 export const setupMember = {
   gui: {
     active: false,
+    stats: false,
   },
   renderer: {
     active: true,
@@ -63,7 +64,7 @@ export const setupMember = {
   world: {
     material: {
       environment: 'blocky_photo_studio_1k',
-      envmapIntensity: 0.2,
+      envmapIntensity: 0.1,
       bloom: {
         common: 8,
         stage: 6,
@@ -76,7 +77,7 @@ export const setupMember = {
     },
     material: {
       environment: 'stierberg_sunrise_1k',
-      envmapIntensity: 0.9,
+      envmapIntensity: 1.0,
     },
   },
 }
