@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Cormorant_Garamond, Zen_Old_Mincho } from 'next/font/google'
 import '@/styles/global/globals'
 import StoreProvider from '@/app/store/provider'
+import { GsapManager } from './components/GsapManager/GsapManager'
 
 const zenOldMincho = Zen_Old_Mincho({
   variable: '--font-zen-old-mincho',
@@ -25,13 +26,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+  return <>
     <StoreProvider>
+      <GsapManager />
       <html lang='ja'>
         <body className={`${zenOldMincho.variable} ${cormorantGaramond.variable}`}>
           {children}
         </body>
       </html>
     </StoreProvider>
-  )
+  </>
 }
