@@ -3,6 +3,7 @@ import { GetGround } from './groundTypes'
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { LoadedAssets, setupMember } from '../../setupMember'
+import { pixelRatioManager } from '@/lib/threejs/pixelRatioManager/pixelRatioManager'
 
 /**
  * Reflector を使ったミラー素材の地面
@@ -10,10 +11,17 @@ import { LoadedAssets, setupMember } from '../../setupMember'
 export const getReflector = (
   geometry: THREE.PlaneGeometry | THREE.CircleGeometry,
 ): THREE.Mesh => {
+  const pixelRatio = pixelRatioManager(
+    setupMember.renderer.pixelRatio,
+  )?.getPixelRatio()
+
+  const texturePixelRatio = Math.max((pixelRatio ?? 1) / 3, setupMember.renderer.pixelRatio.groundTextureMinPixelRatio)
+  console.log('[Ground] texturePixelRatio:', texturePixelRatio)
+
   const groundMirror = new Reflector(geometry, {
     // clipBias: 0.003,
-    textureWidth: window.innerWidth * window.devicePixelRatio / 5,
-    textureHeight: window.innerHeight * window.devicePixelRatio / 5,
+    textureWidth: window.innerWidth * texturePixelRatio,
+    textureHeight: window.innerHeight * texturePixelRatio,
     color: 0xA8B0E7,
     // recursion: 1,
   })

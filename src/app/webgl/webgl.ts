@@ -12,6 +12,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 
 // パフォーマンス
 import Stats from 'stats.js'
+import { setFpsManager } from '@/lib/threejs/setFpsManager/setFpsManager'
 
 // ローディング
 import { loadingManager } from './loading/loadingManager'
@@ -50,6 +51,11 @@ const initWebGL: InitWebGL = (
   const stats = new Stats()
   stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
   document.body.appendChild(stats.dom)
+
+  /**
+   * FPS マネージャー
+   */
+  const fpsManager = setFpsManager()
 
   /**
    * シーン
@@ -239,7 +245,11 @@ const initWebGL: InitWebGL = (
      */
     rendering()
 
+    /**
+     * パフォーマンス
+     */
     stats.end()
+    fpsManager.measure()
   }
   renderer.setAnimationLoop(animate)
 

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { GetRenderer } from './rendererTypes'
-import { applyPixelRatio } from '@/lib/threejs/applyPixelRatio/applyPixelRatio'
+import { pixelRatioManager } from '@/lib/threejs/pixelRatioManager/pixelRatioManager'
 
 /**
  * レンダラー取得
@@ -26,10 +26,9 @@ export const getRenderer: GetRenderer = (
   /**
    * パフォーマンス設定
    */
-  applyPixelRatio(
-    renderer,
-    options?.pixelRatio,
-  )
+  pixelRatioManager(
+    options.pixelRatio,
+  )?.setPixelRatio(renderer)
 
   /**
    * シャドウ設定

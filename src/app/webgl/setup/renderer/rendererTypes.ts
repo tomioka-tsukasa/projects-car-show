@@ -5,10 +5,19 @@ import * as THREE from 'three'
  */
 export type GetRenderer = (
   canvas: HTMLCanvasElement,
-  options?: {
-    shadow?: boolean,
-    toneMapping?: number,
-    pixelRatio?: number,
-  },
+  options: GetRendererOptions,
   parameters?: ConstructorParameters<typeof THREE.WebGLRenderer>[0],
 ) => THREE.WebGLRenderer
+
+export type GetRendererOptions = {
+  pixelRatio: {
+    baseSize: {
+      width: number,
+      height: number,
+    },
+    wishPixelRatioPercent: number,
+    minPixelRatio: number,
+  },
+  shadow?: boolean,
+  toneMapping?: number,
+}

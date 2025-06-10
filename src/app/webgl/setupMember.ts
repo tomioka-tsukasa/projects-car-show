@@ -16,12 +16,18 @@ export const setupMember = {
     active: true,
     shadow: false,
     toneMapping: 0.7,
-    pixelRatio: 1.5,
-    // pixelRatio: 1.8,
-    // pixelRatio: 2,
-    // pixelRatio: 3,
-    // pixelRatio: 6,
+    pixelRatio: {
+      baseSize: {
+        width: 1512,
+        height: 823,
+      },
+      wishPixelRatioPercent: 0.65,
+      minPixelRatio: 0.7,
+      groundTextureMinPixelRatio: 0.4,
+    },
     groundReflection: true,
+    debug: false,
+    debugPixelRatioPercent: 0.5,
   },
   light: {
     directionalLight: {
