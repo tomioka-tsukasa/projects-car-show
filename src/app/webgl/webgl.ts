@@ -55,7 +55,9 @@ const initWebGL: InitWebGL = (
   /**
    * FPS マネージャー
    */
-  const fpsManager = setFpsManager()
+  const fpsManager = setFpsManager({
+    log: setupMember.renderer.fpsLog,
+  })
 
   /**
    * シーン
@@ -191,19 +193,23 @@ const initWebGL: InitWebGL = (
   let prevTime = performance.now()
   const targetFPS = 60
 
-  const rendering = () => {
+  const renderProcess = () => {
     if (setupMember.postprocess.active) {
+      // ポストプロセッシングレンダリングを実行
       composer.render()
     } else {
+      // 通常レンダリングを実行
       renderer.render(scene, camera)
     }
   }
 
   if (!setupMember.renderer.active) {
-    rendering()
+    fpsManager.rendering(0, renderProcess)
   }
 
-  function animate() {
+  function animate(
+    timestamp: number,
+  ) {
     // レンダリングを停止している場合はアニメーションを停止
     if (!setupMember.renderer.active) {
       return
@@ -243,13 +249,12 @@ const initWebGL: InitWebGL = (
     /**
      * レンダリング
      */
-    rendering()
+    fpsManager.rendering(timestamp, renderProcess)
 
     /**
      * パフォーマンス
      */
     stats.end()
-    fpsManager.measure()
   }
   renderer.setAnimationLoop(animate)
 

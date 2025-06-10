@@ -22,12 +22,13 @@ export const setupMember = {
         height: 823,
       },
       wishPixelRatioPercent: 0.65,
-      minPixelRatio: 0.7,
-      groundTextureMinPixelRatio: 0.4,
+      minPixelRatio: 1,
+      groundTextureMinPixelRatio: 0.6,
     },
     groundReflection: true,
     debug: false,
     debugPixelRatioPercent: 0.5,
+    fpsLog: true,
   },
   light: {
     directionalLight: {
