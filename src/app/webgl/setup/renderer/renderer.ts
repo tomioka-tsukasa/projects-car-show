@@ -1,0 +1,51 @@
+import * as THREE from 'three'
+import { GetRenderer } from './rendererTypes'
+import { applyPixelRatio } from '@/lib/threejs/applyPixelRatio/applyPixelRatio'
+
+/**
+ * レンダラー取得
+ */
+export const getRenderer: GetRenderer = (
+  canvas,
+  options,
+  parameters,
+) => {
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: parameters?.antialias ?? true,
+    ...parameters,
+  })
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight)
+
+  /**
+   * カラー設定
+   */
+  renderer.setClearColor(new THREE.Color(0x000000))
+  renderer.outputColorSpace = THREE.SRGBColorSpace
+
+  /**
+   * パフォーマンス設定
+   */
+  applyPixelRatio(
+    renderer,
+    options?.pixelRatio,
+  )
+
+  /**
+   * シャドウ設定
+   */
+  if (options?.shadow) {
+    renderer.shadowMap.enabled = true
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  }
+
+  /**
+   * トーン設定
+   */
+  if (options?.toneMapping) {
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = options.toneMapping || 1
+  }
+
+  return renderer
+}
