@@ -6,7 +6,7 @@ export const colorList = style([
     display: 'flex',
     alignItems: 'center',
   },
-  rvw.gap(24),
+  rvw.gap(24, 12),
 ])
 
 export const colorItem = style([
@@ -58,7 +58,7 @@ export const colorPreview = style([
   {
     overflow: 'hidden',
   },
-  rvw.width(64, 32),
-  rvw.height(64, 32),
+  rvw.width(64, 54),
+  rvw.height(64, 54),
   rvw.borderRadius(4, 2),
 ])

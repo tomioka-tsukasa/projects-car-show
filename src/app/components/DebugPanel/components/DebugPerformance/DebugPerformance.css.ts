@@ -14,7 +14,7 @@ export const list = style([
       },
     }
   },
-  rvw.height(220, 140),
+  rvw.height(180, 140),
   rvw.gap(24),
 ])
 

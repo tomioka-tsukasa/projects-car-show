@@ -4,15 +4,7 @@ import * as debugPanelStyles from '../../DebugPanel.css'
 import { setupMember, webglCtrl } from '@/app/webgl/setupMember'
 import { useState } from 'react'
 
-type Props = {
-  activeAccordion: string
-  setActiveAccordion: (value: string) => void
-}
-
-export const DebugPerformance = ({
-  activeAccordion,
-  setActiveAccordion,
-}: Props) => {
+export const DebugPerformance = () => {
   const [rendering, setRendering] = useState(setupMember.renderer.active)
   const [unrealBloom, setUnrealBloom] = useState(setupMember.postprocess.active)
   const [groundReflection, setGroundReflection] = useState(setupMember.renderer.groundReflection)
@@ -45,95 +37,91 @@ export const DebugPerformance = ({
 
       {/* アコーディオンヘッダー */}
       <button
-        className={`${debugPanelStyles.accordionHeader} ${activeAccordion === 'performance' ? debugPanelStyles.accordionActive : ''}`}
-        onClick={() => setActiveAccordion(activeAccordion === 'performance' ? '' : 'performance')}
+        className={`${debugPanelStyles.contentHeader}`}
       >
         環境・パフォーマンス設定
-        <span className={`${debugPanelStyles.accordionArrow}`}>▼</span>
       </button>
 
       {/* アコーディオンコンテンツ */}
-      {activeAccordion === 'performance' && (
-        <div className={`${debugPanelStyles.accordionContent}`}>
-          <div className={`${styles.list}`}>
+      <div className={`${debugPanelStyles.contentArea}`}>
+        <div className={`${styles.list}`}>
 
-            {/* レンダリング可否 */}
-            <div className={`${styles.item}`}>
-              <div className={`${styles.checkboxItem}`}>
-                <input
-                  type='checkbox'
-                  name='rendering'
-                  id='rendering'
-                  className={`${styles.checkbox}`}
-                  checked={rendering}
-                  onChange={() => {
-                    setRendering(!rendering)
-                    setupMember.renderer.active = !setupMember.renderer.active
-                  }}
-                />
-                <label htmlFor='rendering' className={`${styles.itemTitle}`}>
-                  レンダリングの有無
-                </label>
-              </div>
-            </div>
-
-            {/* 光の拡散効果 */}
-            <div className={`${styles.item}`}>
-              <div className={`${styles.checkboxItem}`}>
-                <input
-                  type='checkbox'
-                  name='unrealbloom'
-                  id='unrealbloom'
-                  className={`${styles.checkbox}`}
-                  checked={unrealBloom}
-                  onChange={() => {
-                    setUnrealBloom(!unrealBloom)
-                    setupMember.postprocess.active = !setupMember.postprocess.active
-                  }}
-                />
-                <label htmlFor='unrealbloom' className={`${styles.itemTitle}`}>
-                  光の拡散効果 Unreal Bloom
-                </label>
-              </div>
-            </div>
-
-            {/* 地面の鏡面反射効果 */}
+          {/* レンダリング可否 */}
+          <div className={`${styles.item}`}>
             <div className={`${styles.checkboxItem}`}>
               <input
                 type='checkbox'
-                name='ground-reflection'
-                id='ground-reflection'
+                name='rendering'
+                id='rendering'
                 className={`${styles.checkbox}`}
-                checked={groundReflection}
-                onChange={handleGroundReflection}
+                checked={rendering}
+                onChange={() => {
+                  setRendering(!rendering)
+                  setupMember.renderer.active = !setupMember.renderer.active
+                }}
               />
-              <label htmlFor='ground-reflection' className={`${styles.itemTitle}`}>
-                地面の鏡面反射効果
+              <label htmlFor='rendering' className={`${styles.itemTitle}`}>
+                レンダリングの有無
               </label>
             </div>
+          </div>
 
-            {/* カメラ移動ログ */}
-            <div className={`${styles.item}`}>
-              <div className={`${styles.checkboxItem}`}>
-                <input
-                  type='checkbox'
-                  name='camera-log'
-                  id='camera-log'
-                  className={`${styles.checkbox}`}
-                  checked={cameraLog}
-                  onChange={() => {
-                    setupMember.controls.debug = !setupMember.controls.debug
-                    setCameraLog(!cameraLog)
-                  }}
-                />
-                <label htmlFor='camera-log' className={`${styles.itemTitle}`}>
-                  カメラ移動のログ
-                </label>
-              </div>
+          {/* 光の拡散効果 */}
+          <div className={`${styles.item}`}>
+            <div className={`${styles.checkboxItem}`}>
+              <input
+                type='checkbox'
+                name='unrealbloom'
+                id='unrealbloom'
+                className={`${styles.checkbox}`}
+                checked={unrealBloom}
+                onChange={() => {
+                  setUnrealBloom(!unrealBloom)
+                  setupMember.postprocess.active = !setupMember.postprocess.active
+                }}
+              />
+              <label htmlFor='unrealbloom' className={`${styles.itemTitle}`}>
+                光の拡散効果 Unreal Bloom
+              </label>
+            </div>
+          </div>
+
+          {/* 地面の鏡面反射効果 */}
+          <div className={`${styles.checkboxItem}`}>
+            <input
+              type='checkbox'
+              name='ground-reflection'
+              id='ground-reflection'
+              className={`${styles.checkbox}`}
+              checked={groundReflection}
+              onChange={handleGroundReflection}
+            />
+            <label htmlFor='ground-reflection' className={`${styles.itemTitle}`}>
+              地面の鏡面反射効果
+            </label>
+          </div>
+
+          {/* カメラ移動ログ */}
+          <div className={`${styles.item}`}>
+            <div className={`${styles.checkboxItem}`}>
+              <input
+                type='checkbox'
+                name='camera-log'
+                id='camera-log'
+                className={`${styles.checkbox}`}
+                checked={cameraLog}
+                onChange={() => {
+                  setupMember.controls.debug = !setupMember.controls.debug
+                  setCameraLog(!cameraLog)
+                }}
+              />
+              <label htmlFor='camera-log' className={`${styles.itemTitle}`}>
+                カメラ移動のログ
+              </label>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }

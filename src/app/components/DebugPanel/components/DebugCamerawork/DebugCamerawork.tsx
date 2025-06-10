@@ -10,15 +10,7 @@ import { CameraWorkMember } from '@/app/webgl/setup/cameraWork'
 
 type CameraName = 'body' | 'tire' | 'sidemirror' | 'default' | 'opening'
 
-type Props = {
-  activeAccordion: string
-  setActiveAccordion: (value: string) => void
-}
-
-export const DebugCamerawork = ({
-  activeAccordion,
-  setActiveAccordion,
-}: Props) => {
+export const DebugCamerawork = () => {
   const [currentCamera, setCurrentCamera] = useState<CameraName | null>(null)
 
   /**
@@ -89,48 +81,44 @@ export const DebugCamerawork = ({
 
       {/* アコーディオンヘッダー */}
       <button
-        className={`${debugPanelStyles.accordionHeader} ${activeAccordion === 'camera' ? debugPanelStyles.accordionActive : ''}`}
-        onClick={() => setActiveAccordion(activeAccordion === 'camera' ? '' : 'camera')}
+        className={`${debugPanelStyles.contentHeader}`}
       >
         カメラワークの変更
-        <span className={`${debugPanelStyles.accordionArrow}`}>▼</span>
       </button>
 
       {/* アコーディオンコンテンツ */}
-      {activeAccordion === 'camera' && (
-        <div className={`${debugPanelStyles.accordionContent} ${styles.cameraList}`}>
-          <div
-            className={`${styles.cameraItem} ${currentCamera === 'body' ? styles.cameraItemActive : ''}`}
-            onClick={() => handleCameraChange('body', setupMember.camera.changer.body)}
-          >
-            ボディ
-          </div>
-          <div
-            className={`${styles.cameraItem} ${currentCamera === 'tire' ? styles.cameraItemActive : ''}`}
-            onClick={() => handleCameraChange('tire', setupMember.camera.changer.tire)}
-          >
-            タイヤ
-          </div>
-          <div
-            className={`${styles.cameraItem} ${currentCamera === 'sidemirror' ? styles.cameraItemActive : ''}`}
-            onClick={() => handleCameraChange('sidemirror', setupMember.camera.changer.sidemirror)}
-          >
-            サイドミラー
-          </div>
-          <div
-            className={`${styles.cameraItem} ${currentCamera === 'default' ? styles.cameraItemActive : ''}`}
-            onClick={() => handleCameraChange('default', setupMember.camera.default)}
-          >
-            ワールド全体
-          </div>
-          <div
-            className={`${styles.cameraItem} ${currentCamera === 'opening' ? styles.cameraItemActive : ''}`}
-            onClick={() => handleCameraChange('opening', setupMember.camera.opening)}
-          >
-            デフォルト
-          </div>
+      <div className={`${debugPanelStyles.contentArea} ${styles.cameraList}`}>
+        <div
+          className={`${styles.cameraItem} ${currentCamera === 'body' ? styles.cameraItemActive : ''}`}
+          onClick={() => handleCameraChange('body', setupMember.camera.changer.body)}
+        >
+          ボディ
         </div>
-      )}
+        <div
+          className={`${styles.cameraItem} ${currentCamera === 'tire' ? styles.cameraItemActive : ''}`}
+          onClick={() => handleCameraChange('tire', setupMember.camera.changer.tire)}
+        >
+          タイヤ
+        </div>
+        <div
+          className={`${styles.cameraItem} ${currentCamera === 'sidemirror' ? styles.cameraItemActive : ''}`}
+          onClick={() => handleCameraChange('sidemirror', setupMember.camera.changer.sidemirror)}
+        >
+          サイドミラー
+        </div>
+        <div
+          className={`${styles.cameraItem} ${currentCamera === 'default' ? styles.cameraItemActive : ''}`}
+          onClick={() => handleCameraChange('default', setupMember.camera.default)}
+        >
+          ワールド全体
+        </div>
+        <div
+          className={`${styles.cameraItem} ${currentCamera === 'opening' ? styles.cameraItemActive : ''}`}
+          onClick={() => handleCameraChange('opening', setupMember.camera.opening)}
+        >
+          デフォルト
+        </div>
+      </div>
     </div>
   )
 }

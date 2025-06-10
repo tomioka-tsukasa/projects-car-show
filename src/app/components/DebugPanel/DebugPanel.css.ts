@@ -1,6 +1,11 @@
-import { mqStyle, rvw } from '@/styles/responsive.css'
+import { hover, mqStyle, rvw, sp } from '@/styles/responsive.css'
 import { colors } from '@/styles/variables'
-import { style } from '@vanilla-extract/css'
+import { style, keyframes } from '@vanilla-extract/css'
+
+const fadeIn = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 }
+})
 
 export const ctrlArea = style([
   {
@@ -14,53 +19,39 @@ export const ctrlArea = style([
   rvw.gap(16),
 ])
 
-export const displayChanger = style([
-  {
-    backgroundColor: 'rgba(255, 255, 255, 0.84)',
-    color: colors.base.black,
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s cubic-bezier(0.0, 0.5, 0.3, 1.0) 0s',
-    ':hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    },
-  },
-  rvw.borderRadius(9, 5),
-  rvw.padding([6, 12], [3, 12]),
-  rvw.fontSize(14, 12),
-])
-
 export const displayControl = style([
   {
-    backgroundColor: 'rgba(255, 255, 255, 0.84)',
-    color: colors.base.black,
-    fontWeight: 'bold',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backdropFilter: 'blur(10px)',
+    color: colors.base.white,
     cursor: 'pointer',
-    transition: 'background-color 0.3s cubic-bezier(0.0, 0.5, 0.3, 1.0) 0s',
+    transition: 'all 0.5s cubic-bezier(0.0, 0.5, 0.3, 1.0) 0s',
     ':hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.6)',
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(1px)',
     },
   },
   rvw.borderRadius(9, 5),
-  rvw.padding([6, 12], [3, 12]),
+  rvw.padding([6, 18], [3, 12]),
   rvw.fontSize(14, 12),
 ])
 
 export const root = style([
   {
     position: 'fixed',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     color: colors.base.white,
     zIndex: 1000,
     transition: 'opacity 0.3s cubic-bezier(0.0, 0.5, 0.3, 1.0) 0s',
     opacity: 0,
     pointerEvents: 'none',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backdropFilter: 'blur(10px)',
   },
   rvw.left(24, '50%'),
   rvw.bottom(240, 64),
   rvw.width(540, '94%'),
   rvw.borderRadius(9),
-  rvw.padding([12, 24], [12, 9]),
+  rvw.padding([24], [12, 9]),
   mqStyle.transform(['none', 'translateX(-50%)']),
 ])
 
@@ -68,6 +59,95 @@ export const rootActive = style({
   opacity: 1,
   pointerEvents: 'auto',
 })
+
+export const titleList = style([
+  {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  rvw.gap(16),
+  rvw.marginTop(16),
+])
+
+export const titleItem = style([
+  {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '50%',
+    transition: 'all 0.3s cubic-bezier(0.15, 0.77, 0.45, 0.93) 0s',
+  },
+  hover({
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  }),
+  rvw.width(40),
+  rvw.height(40),
+])
+
+export const titleItemActive = style([
+  {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    color: colors.base.black,
+  },
+  hover({
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  }),
+])
+
+export const icon = style([
+  {
+    width: 20,
+    height: 20,
+  },
+])
+
+export const titlePopup = style([
+  {
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    color: '#fff',
+    whiteSpace: 'nowrap',
+    opacity: 0,
+    pointerEvents: 'none',
+    transition: 'all 0.3s cubic-bezier(0.15, 0.77, 0.45, 0.93) 0s',
+  },
+  {
+    selectors: {
+      [`${titleItem}:hover &`]: {
+        opacity: 1,
+      }
+    }
+  },
+  rvw.bottom(-30),
+  rvw.padding([4, 8]),
+  rvw.fontSize(12),
+  rvw.borderRadius(4),
+  sp({
+    display: 'none',
+  }),
+])
+
+export const renderContent = style([
+  {
+    opacity: 0,
+    pointerEvents: 'none',
+    transition: 'all 0.3s cubic-bezier(0.15, 0.77, 0.45, 0.93) 0s',
+  },
+  rvw.minWidth(300),
+])
+
+export const renderContentActive = style([
+  {
+    opacity: 1,
+    pointerEvents: 'auto',
+    animation: `${fadeIn} 0.3s cubic-bezier(0.15, 0.77, 0.45, 0.93) forwards`,
+  }
+])
 
 export const title = style([
   {
@@ -85,49 +165,31 @@ export const accordions = style([
   rvw.marginTop(12),
 ])
 
-export const accordionHeader = style([
+export const contentHeader = style([
   {
     width: '100%',
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     color: '#ffffff',
-    cursor: 'pointer',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    transition: 'background-color 0.6s cubic-bezier(0.0, 0.5, 0.3, 1.0) 0s',
-    ':hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    },
   },
   rvw.fontSize(14),
   rvw.padding([6, 12], [6, 12]),
   rvw.borderRadius(4),
 ])
 
-export const accordionActive = style({
-  backgroundColor: 'rgba(255, 255, 255, 0.2)',
-})
-
-export const accordionArrow = style([
-  {
-    transition: 'transform 0.6s cubic-bezier(0.0, 0.5, 0.3, 1.0) 0s',
-    selectors: {
-      [`${accordionActive} &`]: {
-        transform: 'rotate(180deg)',
-      },
-    },
-  },
-])
-
-export const accordionContent = style([
-  rvw.padding(10, [6, 6, 16]),
+export const contentArea = style([
   rvw.borderRadius(4),
-  rvw.marginTop(5),
+  rvw.marginTop(12),
+  rvw.padding([0, 0, 0, 6]),
 ])
 
-export const intensityControl = style({
-  marginTop: '10px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '5px',
-})
+export const intensityControl = style([
+  {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  rvw.marginTop(10),
+  rvw.gap(5),
+])

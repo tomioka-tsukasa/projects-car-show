@@ -53,6 +53,9 @@ export const lineBottom = style([
   },
   rvw.bottom(72, 58),
   rvw.height(1),
+  sp({
+    display: 'none',
+  }),
 ])
 
 export const titleContainer = style([

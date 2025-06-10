@@ -12,10 +12,18 @@ import { DebugPerformance } from './components/DebugPerformance/DebugPerformance
 import { setupMember } from '../../webgl/setupMember'
 import { fixCamerawork } from '@/lib/threejs/fixCamerawork/fixCamerawork'
 import * as THREE from 'three'
+import { CameraIcon, Eclipse, Palette, Settings2 } from 'lucide-react'
+
+const DEBUG_ITEMS = [
+  { id: 'color', label: 'カラー設定', icon: <Palette className={`${styles.icon}`} /> },
+  { id: 'camerawork', label: 'カメラワーク', icon: <CameraIcon className={`${styles.icon}`} /> },
+  { id: 'envmap', label: '環境マップ', icon: <Eclipse className={`${styles.icon}`} /> },
+  { id: 'performance', label: 'パフォーマンス', icon: <Settings2 className={`${styles.icon}`} /> },
+] as const
 
 export const DebugPanel = () => {
   const loadingStore = useAppSelector((selector) => selector.loadingStore)
-  const [activeAccordion, setActiveAccordion] = useState<string>('color')
+  const [activeItem, setActiveItem] = useState<string>('color')
   const [openDebug, setOpenDebug] = useState<boolean>(true)
   const [activeControl, setActiveControl] = useState<boolean>(setupMember.controls.enabled)
 
@@ -40,45 +48,54 @@ export const DebugPanel = () => {
     }
   }, [loadingStore.loadComplete])
 
-  return <>
-    <div className={`${styles.root} ${!openDebug ? '' : styles.rootActive}`}>
-      <h2 className={`${styles.title}`}>デバッグメニュー</h2>
+  const renderContent = () => {
+    switch (activeItem) {
+      case 'color':
+        return <DebugColor />
+      case 'camerawork':
+        return <DebugCamerawork />
+      case 'envmap':
+        return <DebugEnvmap />
+      case 'performance':
+        return <DebugPerformance />
+      default:
+        return null
+    }
+  }
 
-      <div className={`${styles.accordions}`}>
-        <DebugColor
-          activeAccordion={activeAccordion}
-          setActiveAccordion={setActiveAccordion}
-        />
-
-        <DebugCamerawork
-          activeAccordion={activeAccordion}
-          setActiveAccordion={setActiveAccordion}
-        />
-
-        <DebugEnvmap
-          activeAccordion={activeAccordion}
-          setActiveAccordion={setActiveAccordion}
-        />
-
-        <DebugPerformance
-          activeAccordion={activeAccordion}
-          setActiveAccordion={setActiveAccordion}
-        />
+  return (
+    <>
+      <div className={`${styles.root} ${!openDebug ? '' : styles.rootActive}`}>
+        <div className={`${styles.renderContent} ${activeItem ? styles.renderContentActive : ''}`}>
+          {renderContent()}
+        </div>
+        <div className={styles.titleList}>
+          {DEBUG_ITEMS.map((item) => (
+            <div
+              key={item.id}
+              className={`${styles.titleItem} ${activeItem === item.id ? styles.titleItemActive : ''}`}
+              onClick={() => setActiveItem(item.id)}
+            >
+              {item.icon}
+              <div className={styles.titlePopup}>{item.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div >
-    <div className={`${styles.ctrlArea}`}>
-      <button
-        onClick={() => {
-          setActiveControl(!activeControl)
-          setupMember.controls.enabled = !activeControl
-        }}
-        className={`${styles.displayControl}`}
-      >
-        {activeControl ? 'カメラ操作を無効にする' : 'カメラ操作を有効にする'}
-      </button>
-      <button onClick={() => setOpenDebug(!openDebug)} className={`${styles.displayChanger}`}>
-        {openDebug ? 'デバックメニューを閉じる' : 'デバックメニューを開く'}
-      </button>
-    </div>
-  </>
+      <div className={styles.ctrlArea}>
+        <button
+          onClick={() => {
+            setActiveControl(!activeControl)
+            setupMember.controls.enabled = !activeControl
+          }}
+          className={styles.displayControl}
+        >
+          {activeControl ? 'カメラ操作を無効にする' : 'カメラ操作を有効にする'}
+        </button>
+        <button onClick={() => setOpenDebug(!openDebug)} className={styles.displayControl}>
+          {openDebug ? 'デバックメニューを閉じる' : 'デバックメニューを開く'}
+        </button>
+      </div>
+    </>
+  )
 }

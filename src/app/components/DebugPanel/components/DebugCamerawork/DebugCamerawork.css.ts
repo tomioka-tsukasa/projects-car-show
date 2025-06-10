@@ -7,7 +7,7 @@ export const cameraList = style([
     display: 'flex',
     flexWrap: 'wrap',
   },
-  rvw.gap([16, 24]),
+  rvw.gap([16, 24], [12, 16]),
 ])
 
 export const cameraItem = style([
@@ -20,12 +20,14 @@ export const cameraItem = style([
     color: colors.base.white,
     transition: 'all 0.3s cubic-bezier(0.15, 0.77, 0.45, 0.93) 0s',
     cursor: 'pointer',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderStyle: 'solid',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   rvw.gap(6, 4),
   rvw.fontSize(12),
   rvw.padding([6, 12], [6, 9]),
   rvw.borderRadius(4),
+  rvw.borderWidth(1),
   hover({
     opacity: 0.5,
   }),
