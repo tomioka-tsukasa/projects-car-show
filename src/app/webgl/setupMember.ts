@@ -11,7 +11,7 @@ import { GetSpotLight } from './setup/lights/lightsTypes'
 export const setupMember = {
   gui: {
     active: false,
-    stats: false,
+    stats: true,
   },
   renderer: {
     active: true,
@@ -19,10 +19,11 @@ export const setupMember = {
     toneMapping: 0.7,
     pixelRatio: {
       baseSize: {
-        width: 1512,
-        height: 823,
+        width: 1920,
+        height: 1080,
       },
-      wishPixelRatioPercent: 0.65,
+      wishPixelRatioPercent: 0.8,
+      mobileWishPixelRatioPercent: 0.65,
       minPixelRatio: 1,
       groundTextureMinPixelRatio: 0.6,
     },

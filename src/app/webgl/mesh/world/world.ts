@@ -10,6 +10,7 @@ import { cloneReflectorCircle } from '../ground/ground'
  * ・GUI 設定
  */
 export const getWorld: GetWorld = (
+  renderer,
   model,
   loadedAssets,
 ) => {
@@ -42,7 +43,7 @@ export const getWorld: GetWorld = (
   /**
    * Reflector 生成
    */
-  const reflector = cloneReflectorCircle('Table_Reflector', model, loadedAssets)
+  const reflector = cloneReflectorCircle(renderer, 'Table_Reflector', model, loadedAssets)
   if (reflector) {
     reflector.visible = setupMember.renderer.groundReflection
     reflector.name = 'Ground_Reflector'

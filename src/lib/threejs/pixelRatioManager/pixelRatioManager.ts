@@ -7,6 +7,7 @@ import { setupMember } from '@/app/webgl/setupMember'
  * Three.jsのレンダラーにピクセル比率を適用
  */
 export const pixelRatioManager: PixelRatioManager = (
+  canvas,
   options,
 ) => {
   if (typeof window === 'undefined') return null
@@ -18,11 +19,11 @@ export const pixelRatioManager: PixelRatioManager = (
   let pixelRatio = 0
 
   if (browserInfo.deviceType === DEVICE_TYPE.PC) {
-    // 希望の値を参考にピクセル比率を固定
+    // 希望の割合を参考にピクセル比率を設定
     const wishPixelRatio = fixPixelRatioWish(options.wishPixelRatioPercent)
 
     // デバイスのピクセル比率の最適化
-    const devicePixelRatio = fixPixelRatioDevice(wishPixelRatio, options.baseSize)
+    const devicePixelRatio = fixPixelRatioDevice(canvas, wishPixelRatio, options.baseSize)
 
     // 最低限の PixelRatio を保証
     pixelRatio = Math.max(devicePixelRatio, options.minPixelRatio)
@@ -42,7 +43,7 @@ export const pixelRatioManager: PixelRatioManager = (
     /**
      * デバイスタイプがSPの場合はデバイスのピクセル比率をそのまま適用
      */
-    pixelRatio = window.devicePixelRatio * options.wishPixelRatioPercent
+    pixelRatio = window.devicePixelRatio * options.mobileWishPixelRatioPercent
 
     console.log('[PixelRatio-SP] pixelRatio:', pixelRatio)
   }
@@ -74,11 +75,13 @@ export const fixPixelRatioWish = (
 
 /**
  * 【デバイスのピクセル比率の最適化】
+ * @param canvas キャンバス
  * @param pixelRatio ピクセル比率
  * @param baseSize 基準サイズ
  * @returns 適用するピクセル比率
  */
 export const fixPixelRatioDevice = (
+  canvas: HTMLCanvasElement,
   pixelRatio: number,
   baseSize: {
     width: number,
@@ -86,10 +89,16 @@ export const fixPixelRatioDevice = (
   }
 ) => {
   const baseArea = baseSize.width * baseSize.height
-  const actualArea = window.innerWidth * window.innerHeight
+  const actualArea = canvas.clientWidth * canvas.clientHeight
   const scaling = Math.sqrt(baseArea / actualArea)
 
   console.log('[PixelRatio-PC] devide size scaling:', scaling)
 
-  return pixelRatio * scaling
+  if (scaling > 1) {
+    // baseSize よりも小さい場合はピクセル比率を固定
+    return pixelRatio
+  } else {
+    // baseSize よりも大きい場合はピクセル比率を最適化
+    return pixelRatio * scaling
+  }
 }

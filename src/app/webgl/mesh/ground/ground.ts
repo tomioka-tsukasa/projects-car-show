@@ -9,9 +9,11 @@ import { pixelRatioManager } from '@/lib/threejs/pixelRatioManager/pixelRatioMan
  * Reflector を使ったミラー素材の地面
  */
 export const getReflector = (
+  renderer: THREE.WebGLRenderer,
   geometry: THREE.PlaneGeometry | THREE.CircleGeometry,
 ): THREE.Mesh => {
   const pixelRatio = pixelRatioManager(
+    renderer.domElement,
     setupMember.renderer.pixelRatio,
   )?.getPixelRatio()
 
@@ -19,11 +21,10 @@ export const getReflector = (
   console.log('[Ground] texturePixelRatio:', texturePixelRatio)
 
   const groundMirror = new Reflector(geometry, {
-    // clipBias: 0.003,
+    clipBias: 0.01,
     textureWidth: window.innerWidth * texturePixelRatio,
     textureHeight: window.innerHeight * texturePixelRatio,
     color: 0xA8B0E7,
-    // recursion: 1,
   })
 
   return groundMirror
@@ -73,10 +74,11 @@ export const getReflectorOverlayMesh = (
 }
 
 export const getGround: GetGround = (
+  renderer,
   loadedAssets
 ) => {
   const geometry = new THREE.PlaneGeometry(200, 200, 1, 1)
-  const groundMirror = getReflector(geometry)
+  const groundMirror = getReflector(renderer, geometry)
 
   // テクスチャを重ねる半透明 Plane
   const overlayMaterial = getReflectorOverlayMesh(loadedAssets)
@@ -93,6 +95,7 @@ export const getGround: GetGround = (
 }
 
 export const cloneReflectorPlane = (
+  renderer: THREE.WebGLRenderer,
   name: string,
   model: GLTF,
   loadedAssets?: LoadedAssets,
@@ -106,7 +109,7 @@ export const cloneReflectorPlane = (
     const copiedGeometry = originalGeometry.clone()
 
     // 新しいメッシュとして作成
-    const reflectorMesh = getReflector(copiedGeometry)
+    const reflectorMesh = getReflector(renderer, copiedGeometry)
 
     // テクスチャを重ねる半透明 Plane
     const overlayMaterial = getReflectorOverlayMesh(loadedAssets)
@@ -137,6 +140,7 @@ export const cloneReflectorPlane = (
 }
 
 export const cloneReflectorCircle = (
+  renderer: THREE.WebGLRenderer,
   name: string,
   model: GLTF,
   loadedAssets?: LoadedAssets,
@@ -156,7 +160,7 @@ export const cloneReflectorCircle = (
     const geometry = new THREE.CircleGeometry(radius, 100)
 
     // 新しいメッシュとして作成
-    const reflectorMesh = getReflector(geometry)
+    const reflectorMesh = getReflector(renderer, geometry)
 
     // テクスチャを重ねる半透明 Plane
     const overlayMaterial = getReflectorOverlayMesh(loadedAssets)

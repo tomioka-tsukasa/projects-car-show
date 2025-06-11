@@ -16,6 +16,7 @@ export type GetRendererOptions = {
       height: number,
     },
     wishPixelRatioPercent: number,
+    mobileWishPixelRatioPercent: number,
     minPixelRatio: number,
   },
   shadow?: boolean,

@@ -159,7 +159,7 @@ const initWebGL: InitWebGL = (
    * メッシュ設定
    */
   const car = getCar(loadedAssets.models.car, loadedAssets)
-  const world = getWorld(loadedAssets.models.world, loadedAssets)
+  const world = getWorld(renderer, loadedAssets.models.world, loadedAssets)
 
   scene.add(
     camera,

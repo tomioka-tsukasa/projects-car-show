@@ -27,6 +27,7 @@ export const getRenderer: GetRenderer = (
    * パフォーマンス設定
    */
   pixelRatioManager(
+    renderer.domElement,
     options.pixelRatio,
   )?.setPixelRatio(renderer)
 
