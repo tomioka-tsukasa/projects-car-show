@@ -14,16 +14,22 @@ import { fixCamerawork } from '@/lib/threejs/fixCamerawork/fixCamerawork'
 import * as THREE from 'three'
 import { CameraIcon, Eclipse, Palette, Settings2 } from 'lucide-react'
 
-const DEBUG_ITEMS = [
+type DebugItem = {
+  id: string
+  label: string
+  icon: React.ReactNode
+}
+
+const DEBUG_ITEMS: DebugItem[] = [
   { id: 'color', label: 'カラー設定', icon: <Palette className={`${styles.icon}`} /> },
   { id: 'camerawork', label: 'カメラワーク', icon: <CameraIcon className={`${styles.icon}`} /> },
   { id: 'envmap', label: '環境マップ', icon: <Eclipse className={`${styles.icon}`} /> },
   { id: 'performance', label: 'パフォーマンス', icon: <Settings2 className={`${styles.icon}`} /> },
-] as const
+]
 
 export const DebugPanel = () => {
   const loadingStore = useAppSelector((selector) => selector.loadingStore)
-  const [activeItem, setActiveItem] = useState<string>('color')
+  const [activeItem, setActiveItem] = useState<DebugItem['id']>('color')
   const [openDebug, setOpenDebug] = useState<boolean>(true)
   const [activeControl, setActiveControl] = useState<boolean>(setupMember.controls.enabled)
 
@@ -49,18 +55,22 @@ export const DebugPanel = () => {
   }, [loadingStore.loadComplete])
 
   const renderContent = () => {
-    switch (activeItem) {
-      case 'color':
-        return <DebugColor />
-      case 'camerawork':
-        return <DebugCamerawork />
-      case 'envmap':
-        return <DebugEnvmap />
-      case 'performance':
-        return <DebugPerformance />
-      default:
-        return null
-    }
+    return (
+      <>
+        <div className={`${styles.debugPanel} ${activeItem === 'color' ? styles.active : ''}`}>
+          <DebugColor />
+        </div>
+        <div className={`${styles.debugPanel} ${activeItem === 'camerawork' ? styles.active : ''}`}>
+          <DebugCamerawork />
+        </div>
+        <div className={`${styles.debugPanel} ${activeItem === 'envmap' ? styles.active : ''}`}>
+          <DebugEnvmap />
+        </div>
+        <div className={`${styles.debugPanel} ${activeItem === 'performance' ? styles.active : ''}`}>
+          <DebugPerformance />
+        </div>
+      </>
+    )
   }
 
   return (

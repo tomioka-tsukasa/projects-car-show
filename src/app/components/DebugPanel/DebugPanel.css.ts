@@ -193,3 +193,15 @@ export const intensityControl = style([
   rvw.marginTop(10),
   rvw.gap(5),
 ])
+
+export const debugPanel = style([
+  {
+    display: 'none',
+    pointerEvents: 'none',
+  },
+])
+
+export const active = style({
+  display: 'block',
+  pointerEvents: 'auto',
+})
