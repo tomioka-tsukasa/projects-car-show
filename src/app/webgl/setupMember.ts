@@ -11,7 +11,7 @@ import { GetSpotLight } from './setup/lights/lightsTypes'
 export const setupMember = {
   gui: {
     active: false,
-    stats: true,
+    stats: false,
   },
   renderer: {
     active: true,
