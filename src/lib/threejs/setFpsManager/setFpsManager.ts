@@ -1,19 +1,13 @@
-type SetFpsManager = (
-  options?: {
-    log?: boolean,
-  }
-) => {
-  status: {
-    fps: number,
-    fixedFps: number,
-  },
-  rendering: (
-    timestamp: number,
-    process: () => void,
-  ) => void,
-}
+import { FpsCounter, SetFpsManager } from './setFpsManagerTypes'
 
+/**
+ * 【FPS管理とレンダリング回数を抑制】
+ * @param targetFps 目標FPS
+ * @param options オプション
+ * @returns FPSマネージャー
+ */
 export const setFpsManager: SetFpsManager = (
+  targetFps,
   options,
 ) => {
   const status = {
@@ -21,21 +15,21 @@ export const setFpsManager: SetFpsManager = (
     fixedFps: 0,
   }
 
-  const counter = {
+  const counter: FpsCounter = {
     rawFrameCount: 0,
     adjustedFrameCount: 0,
     lastTimestamp: 0,
     lastRenderTime: 0,
-    targetInterval: 1000 / 30,
+    targetInterval: 1000 / targetFps,
   }
 
   /**
    * FPS計測
    */
   const measure = (
+    counter: FpsCounter,
     timestamp: number,
   ) => {
-    // 実際のFPS計測（毎秒ログ）
     if (timestamp - counter.lastTimestamp >= 1000) {
       if (options?.log) console.log(`📈 実測FPS: ${counter.rawFrameCount}, 調整後FPS: ${counter.adjustedFrameCount}`)
       counter.rawFrameCount = 0
@@ -44,6 +38,9 @@ export const setFpsManager: SetFpsManager = (
     }
   }
 
+  /**
+   * ループ中に走らせる処理
+   */
   const rendering = (
     timestamp: number,
     process: () => void,
@@ -64,7 +61,7 @@ export const setFpsManager: SetFpsManager = (
     counter.adjustedFrameCount++
 
     // FPS計測
-    measure(timestamp)
+    measure(counter, timestamp)
 
     // レンダリング処理を実行
     process()

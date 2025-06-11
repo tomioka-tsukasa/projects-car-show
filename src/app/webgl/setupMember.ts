@@ -30,6 +30,7 @@ export const setupMember = {
     groundReflection: true,
     debug: false,
     debugPixelRatioPercent: 0.5,
+    targetFps: 30,
     fpsLog: true,
   },
   light: {

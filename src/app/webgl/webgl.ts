@@ -55,11 +55,14 @@ const initWebGL: InitWebGL = (
   }
 
   /**
-   * FPS マネージャー
+   * FPSマネージャー
    */
-  const fpsManager = setFpsManager({
-    log: setupMember.renderer.fpsLog,
-  })
+  const fpsManager = setFpsManager(
+    setupMember.renderer.targetFps,
+    {
+      log: setupMember.renderer.fpsLog,
+    },
+  )
 
   /**
    * シーン
