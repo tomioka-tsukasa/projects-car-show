@@ -24,7 +24,7 @@ export const setupMember = {
       },
       wishPixelRatioPercent: 0.8,
       mobileWishPixelRatioPercent: 0.65,
-      minPixelRatio: 1,
+      minPixelRatio: 0.8,
       groundTextureMinPixelRatio: 0.6,
     },
     groundReflection: true,
