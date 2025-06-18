@@ -31,7 +31,7 @@ export const setupMember = {
     debug: false,
     debugPixelRatioPercent: 0.5,
     targetFps: 30,
-    fpsLog: true,
+    fpsLog: false,
   },
   light: {
     directionalLight: {
@@ -65,8 +65,8 @@ export const setupMember = {
   },
   world: {
     material: {
-      environment: 'blocky_photo_studio_1k',
-      envmapIntensity: 0.1,
+      environment: 'stierberg_sunrise_1k',
+      envmapIntensity: 0.2,
       bloom: {
         common: 8,
         stage: 6,
